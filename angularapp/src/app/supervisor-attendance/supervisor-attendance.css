@@ -1,0 +1,49 @@
+.container {
+  max-width: 1000px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+}
+
+.filters {
+  margin-bottom: 10px;
+}
+
+.filters input {
+  margin-right: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 4px 6px;
+  font-size: 13px;
+}
+.table-wrap {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  width: max-content;
+}
+
+.sticky-col {
+  position: sticky;
+  background: #fff;
+  z-index: 2;
+}
+
+.sticky-id {
+  left: 0;
+  min-width: 110px;
+}
+
+.sticky-name {
+  left: 110px;
+  min-width: 140px;
+}

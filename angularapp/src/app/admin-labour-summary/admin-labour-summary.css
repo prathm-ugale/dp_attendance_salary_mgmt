@@ -1,0 +1,25 @@
+.table-wrap {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  width: max-content;
+}
+
+.sticky-col {
+  position: sticky;
+  background: #fff;
+  z-index: 2;
+}
+
+.sticky-id {
+  left: 0;
+  min-width: 110px;
+}
+
+.sticky-name {
+  left: 110px;
+  min-width: 140px;
+}

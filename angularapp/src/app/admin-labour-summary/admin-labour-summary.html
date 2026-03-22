@@ -1,0 +1,98 @@
+<h2>Admin Monthly Management</h2>
+
+<div style="margin-bottom: 10px;">
+  <label>Year: <input type="number" [(ngModel)]="year" (change)="onMonthChange()" style="width: 80px;"></label>
+  <label style="margin-left: 10px;">Month:
+    <select [(ngModel)]="month" (change)="onMonthChange()">
+      <option [ngValue]="1">Jan</option><option [ngValue]="2">Feb</option><option [ngValue]="3">Mar</option>
+      <option [ngValue]="4">Apr</option><option [ngValue]="5">May</option><option [ngValue]="6">Jun</option>
+      <option [ngValue]="7">Jul</option><option [ngValue]="8">Aug</option><option [ngValue]="9">Sep</option>
+      <option [ngValue]="10">Oct</option><option [ngValue]="11">Nov</option><option [ngValue]="12">Dec</option>
+    </select>
+  </label>
+  <label style="margin-left: 10px;">Search ID/Name:
+    <input type="text" [(ngModel)]="searchText" (ngModelChange)="applyFilter()" style="width: 160px;">
+  </label>
+  <button type="button" style="margin-left: 10px;" (click)="showData()">Show Data</button>
+  <button type="button" style="margin-left: 10px;" (click)="downloadExcel()">Download Excel</button>
+  <button type="button" style="margin-left: 10px;" (click)="downloadPdf()">Download PDF</button>
+</div>
+
+<div style="margin-bottom: 10px; padding: 8px; border: 1px solid #ccc;">
+  <strong>Add Labour</strong>
+  <label style="margin-left: 10px;">ID <input type="text" [(ngModel)]="newLabour.codeNo" style="width: 90px;"></label>
+  <label style="margin-left: 10px;">Name <input type="text" [(ngModel)]="newLabour.name" style="width: 120px;"></label>
+  <label style="margin-left: 10px;">Occupation <input type="text" [(ngModel)]="newLabour.occupation" style="width: 120px;"></label>
+  <label style="margin-left: 10px;">Aadhar <input type="text" [(ngModel)]="newLabour.aadhar" maxlength="12" style="width: 120px;"></label>
+  <label style="margin-left: 10px;">Mobile <input type="text" [(ngModel)]="newLabour.mobile" maxlength="10" style="width: 110px;"></label>
+  <label style="margin-left: 10px;">Site <input type="text" [(ngModel)]="newLabour.site" style="width: 120px;"></label>
+  <button type="button" style="margin-left: 10px;" (click)="addLabour()" [disabled]="addingLabour">
+    {{ addingLabour ? 'Adding...' : 'Add Labour' }}
+  </button>
+</div>
+
+<div class="table-wrap" *ngIf="showTable">
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr>
+      <th class="sticky-col sticky-id">ID</th>
+      <th class="sticky-col sticky-name">Name</th>
+      <th>Occupation</th>
+      <th>Aadhar</th>
+      <th>Mobile</th>
+      <th>Site</th>
+      <th>Per day</th>
+      <th *ngFor="let d of days">{{ d }}</th>
+      <th>Total hajari</th>
+      <th>Total pay</th>
+      <th>K1</th>
+      <th>K2</th>
+      <th>K3</th>
+      <th>Total kharcha</th>
+      <th>Bhada</th>
+      <th>Net pay</th>
+      <th>Actions</th>
+    </tr>
+
+    <tr *ngFor="let r of filteredRows">
+      <td class="sticky-col sticky-id">
+        <input *ngIf="editingLabourId === r.labourId" [(ngModel)]="r.codeNo" style="width: 90px;">
+        <span *ngIf="editingLabourId !== r.labourId">{{ r.codeNo }}</span>
+      </td>
+      <td class="sticky-col sticky-name">
+        <input *ngIf="editingLabourId === r.labourId" [(ngModel)]="r.name" style="width: 120px;">
+        <span *ngIf="editingLabourId !== r.labourId">{{ r.name }}</span>
+      </td>
+      <td>
+        <input *ngIf="editingLabourId === r.labourId" [(ngModel)]="r.occupation" style="width: 120px;">
+        <span *ngIf="editingLabourId !== r.labourId">{{ r.occupation }}</span>
+      </td>
+      <td>
+        <input *ngIf="editingLabourId === r.labourId" [(ngModel)]="r.aadhar" maxlength="12" style="width: 120px;">
+        <span *ngIf="editingLabourId !== r.labourId">{{ r.aadhar }}</span>
+      </td>
+      <td>
+        <input *ngIf="editingLabourId === r.labourId" [(ngModel)]="r.mobile" maxlength="10" style="width: 110px;">
+        <span *ngIf="editingLabourId !== r.labourId">{{ r.mobile }}</span>
+      </td>
+      <td>
+        <input *ngIf="editingLabourId === r.labourId" [(ngModel)]="r.site" style="width: 120px;">
+        <span *ngIf="editingLabourId !== r.labourId">{{ r.site }}</span>
+      </td>
+      <td><input type="number" [(ngModel)]="r.perDayMoney" (blur)="saveRate(r)" style="width: 90px;"></td>
+      <td *ngFor="let d of days">{{ r.shifts[d] || 0 }}</td>
+      <td>{{ totalHajari(r) }}</td>
+      <td>{{ totalPay(r) }}</td>
+      <td><input type="number" [(ngModel)]="r.kharcha1" (blur)="saveMonthlyMoney(r)" style="width: 70px;"></td>
+      <td><input type="number" [(ngModel)]="r.kharcha2" (blur)="saveMonthlyMoney(r)" style="width: 70px;"></td>
+      <td><input type="number" [(ngModel)]="r.kharcha3" (blur)="saveMonthlyMoney(r)" style="width: 70px;"></td>
+      <td>{{ totalKharcha(r) }}</td>
+      <td><input type="number" [(ngModel)]="r.bhada" (blur)="saveMonthlyMoney(r)" style="width: 70px;"></td>
+      <td>{{ netPay(r) }}</td>
+      <td>
+        <button type="button" *ngIf="editingLabourId !== r.labourId" (click)="startEdit(r)">Edit</button>
+        <button type="button" *ngIf="editingLabourId === r.labourId" (click)="saveEdit(r)">Save</button>
+        <button type="button" style="margin-left: 6px;" (click)="deleteLabour(r)">Delete</button>
+      </td>
+    </tr>
+  </table>
+</div>

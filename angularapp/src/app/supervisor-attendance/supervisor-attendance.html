@@ -1,0 +1,54 @@
+<h2>Supervisor Attendance (Month Grid)</h2>
+
+<div style="margin-bottom: 10px;">
+  <label>Year: <input type="number" [(ngModel)]="year" (change)="onMonthChange()" style="width: 80px;"></label>
+  <label style="margin-left: 10px;">Month:
+    <select [(ngModel)]="month" (change)="onMonthChange()">
+      <option [ngValue]="1">Jan</option><option [ngValue]="2">Feb</option><option [ngValue]="3">Mar</option>
+      <option [ngValue]="4">Apr</option><option [ngValue]="5">May</option><option [ngValue]="6">Jun</option>
+      <option [ngValue]="7">Jul</option><option [ngValue]="8">Aug</option><option [ngValue]="9">Sep</option>
+      <option [ngValue]="10">Oct</option><option [ngValue]="11">Nov</option><option [ngValue]="12">Dec</option>
+    </select>
+  </label>
+  <label style="margin-left: 10px;">Search ID/Name:
+    <input type="text" [(ngModel)]="searchText" (ngModelChange)="applyFilter()" style="width: 160px;">
+  </label>
+  <button type="button" style="margin-left: 10px;" (click)="showData()">Show Data</button>
+  <button type="button" style="margin-left: 10px;" (click)="downloadPdf()">Download PDF</button>
+</div>
+
+<div class="table-wrap" *ngIf="showTable">
+  <table border="1" cellspacing="0" cellpadding="4">
+    <tr>
+      <th class="sticky-col sticky-id">ID</th>
+      <th class="sticky-col sticky-name">Name</th>
+      <th>Occupation</th>
+      <th>Site</th>
+      <th *ngFor="let d of days">{{ d }}</th>
+      <th>Total hajari</th>
+      <th>K1</th>
+      <th>K2</th>
+      <th>K3</th>
+      <th>Total kharcha</th>
+      <th>Bhada</th>
+    </tr>
+
+    <tr *ngFor="let r of filteredRows">
+      <td class="sticky-col sticky-id">{{ r.codeNo }}</td>
+      <td class="sticky-col sticky-name">{{ r.name }}</td>
+      <td>{{ r.occupation }}</td>
+      <td>{{ r.site }}</td>
+      <td *ngFor="let d of days">
+        <select [ngModel]="r.shifts[d]" (ngModelChange)="onShiftChange(r, d, $event)" style="width: 60px;">
+          <option *ngFor="let s of shiftOptions" [ngValue]="s">{{ s }}</option>
+        </select>
+      </td>
+      <td>{{ totalHajari(r) }}</td>
+      <td><input type="number" [(ngModel)]="r.kharcha1" (blur)="saveMonthlyMoney(r)" style="width: 70px;"></td>
+      <td><input type="number" [(ngModel)]="r.kharcha2" (blur)="saveMonthlyMoney(r)" style="width: 70px;"></td>
+      <td><input type="number" [(ngModel)]="r.kharcha3" (blur)="saveMonthlyMoney(r)" style="width: 70px;"></td>
+      <td>{{ totalKharcha(r) }}</td>
+      <td><input type="number" [(ngModel)]="r.bhada" (blur)="saveMonthlyMoney(r)" style="width: 70px;"></td>
+    </tr>
+  </table>
+</div>
