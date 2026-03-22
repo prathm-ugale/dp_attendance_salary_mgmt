@@ -1,0 +1,115 @@
+.home-page {
+  --bg-1: #f4efe6;
+  --bg-2: #e8ddd0;
+  --ink: #2e2318;
+  --card: #fff9f1;
+  --accent: #9b3d1f;
+  --accent-2: #2f5e4e;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: radial-gradient(circle at 10% 10%, #fff6e8 0%, transparent 42%),
+    linear-gradient(135deg, var(--bg-1), var(--bg-2));
+  color: var(--ink);
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+}
+
+.top-header {
+  text-align: center;
+  padding: 28px 16px 10px;
+}
+
+.brand {
+  font-size: 14px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.marathi-title {
+  margin-top: 10px;
+  font-size: clamp(34px, 5.8vw, 62px);
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-family: "Noto Serif Devanagari", "Mangal", serif;
+  color: var(--accent);
+}
+
+.subtitle {
+  margin-top: 8px;
+  font-size: 18px;
+}
+
+.home-content {
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.card {
+  width: min(560px, 92vw);
+  background: var(--card);
+  border: 1px solid #ddccb7;
+  border-radius: 18px;
+  box-shadow: 0 14px 34px rgba(46, 35, 24, 0.12);
+  padding: 28px 22px;
+  text-align: center;
+}
+
+.card h1 {
+  margin: 0 0 10px;
+  font-size: clamp(24px, 3.6vw, 34px);
+}
+
+.card p {
+  margin: 0;
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 11px 24px;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn.admin {
+  background-color: var(--accent, #9b3d1f);
+  box-shadow: 0 8px 18px rgba(155, 61, 31, 0.25);
+}
+
+.btn.supervisor {
+  background-color: var(--accent-2, #2f5e4e);
+  box-shadow: 0 8px 18px rgba(47, 94, 78, 0.25);
+}
+
+.footer {
+  text-align: center;
+  padding: 14px 10px 18px;
+  font-size: 13px;
+  letter-spacing: 0.8px;
+  opacity: 0.85;
+}
